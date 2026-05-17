@@ -1,0 +1,173 @@
+{% extends 'base.html' %}
+
+{% block title %}
+Comunidade Python - Início
+{% endblock %}
+
+{% block body %}
+<header class="fixed top-0 left-0 w-full bg-white border-b border-gray-200 z-50 shadow-sm">
+  <div class="max-w-7xl mx-auto px-6 py-4 flex items-center justify-between">
+    <div>
+      <a href="{% url 'home' %}">
+        <h1 class="text-2xl font-bold text-blue-600">Comunidade Python</h1>
+      </a>
+    </div>
+
+    <nav class="hidden md:flex items-center gap-8 font-medium">
+      <span class="transition">Bem-vindo(a) <span class="text-blue-600">{{ user.first_name }}</span></span>
+
+      <a href="{% url 'logout' %}"
+        class="bg-red-500 hover:bg-red-600 text-white px-5 py-2 rounded-lg font-medium transition duration-300">
+        Logout
+      </a>
+
+      <a href="{% url 'criar_post' %}"
+        class="bg-blue-600 hover:bg-blue-700 text-white px-5 py-2 rounded-lg font-medium transition duration-300">
+        Criar Post
+      </a>
+    </nav>
+
+    <button id="menu-btn" class="md:hidden text-blue-600 text-3xl focus:outline-none" aria-label="Abrir menu">
+      ☰
+    </button>
+  </div>
+
+  <div id="mobile-menu"
+    class="hidden md:hidden bg-white border-b border-gray-200 px-6 py-4 space-y-4 font-medium shadow-lg">
+    <div class="pb-2 border-b border-gray-100">
+      <span class="text-gray-600">Bem-vindo(a) <span class="text-blue-600 font-bold">{{ user.first_name }}</span></span>
+    </div>
+
+    <div class="flex flex-col gap-2 pt-2">
+      <a href="{% url 'criar_post' %}"
+        class="block text-center bg-blue-600 hover:bg-blue-700 text-white px-5 py-2 rounded-lg font-medium transition duration-300">
+        Criar Post
+      </a>
+      <a href="{% url 'logout' %}"
+        class="block text-center bg-red-500 hover:bg-red-600 text-white px-5 py-2 rounded-lg font-medium transition duration-300">
+        Logout
+      </a>
+    </div>
+  </div>
+</header>
+
+<div class="bg-white text-gray-800 min-h-screen flex flex-col justify-between pt-16">
+
+  <div class="flex-grow">
+    <section class="bg-blue-50 border-b border-blue-100">
+      <div class="max-w-7xl mx-auto px-6 py-20 text-center">
+        {% if messages %}
+        {% for message in messages %}
+        <div
+          class="p-3 mb-4 rounded-md text-base font-medium {% if message.tags == 'error' %}bg-red-100 text-red-700{% else %}bg-green-100 text-green-700{% endif %}">
+          {{ message }}
+        </div>
+        {% endfor %}
+        {% endif %}
+
+        <h1 class="text-4xl md:text-5xl font-bold mb-6">
+          Explore os posts da <span class="text-blue-600">Comunidade Python</span>
+        </h1>
+        <p class="text-lg text-gray-600 max-w-3xl mx-auto leading-relaxed">
+          Descubra conteúdos sobre Python, Django, backend, automações, APIs e desenvolvimento web criados pela
+          comunidade.
+        </p>
+      </div>
+    </section>
+
+    <section class="py-8 border-b border-gray-200 bg-white">
+      <div class="max-w-7xl mx-auto px-6">
+        <div class="flex flex-col md:flex-row gap-4 items-center justify-between">
+          <div class="w-full md:w-96">
+            <form method="GET">
+              <input type="text" name="q" placeholder="Buscar posts..."
+                class="w-full border border-gray-300 rounded-lg px-4 py-3 focus:outline-none focus:ring-2 focus:ring-blue-500" />
+            </form>
+          </div>
+          <div class="flex flex-wrap gap-3">
+            <button class="bg-blue-600 text-white px-5 py-2 rounded-lg font-medium">Todos</button>
+            <button
+              class="border border-blue-600 text-blue-600 px-5 py-2 rounded-lg hover:bg-blue-600 hover:text-white transition">Python</button>
+            <button
+              class="border border-blue-600 text-blue-600 px-5 py-2 rounded-lg hover:bg-blue-600 hover:text-white transition">Django</button>
+            <button
+              class="border border-blue-600 text-blue-600 px-5 py-2 rounded-lg hover:bg-blue-600 hover:text-white transition">Backend</button>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <main class="py-16">
+      <div class="max-w-7xl mx-auto px-6">
+        <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-8">
+          {% for post in posts %}
+          <article
+            class="border border-gray-200 rounded-2xl overflow-hidden hover:shadow-xl transition duration-300 bg-white flex flex-col justify-between">
+            <div class="bg-blue-600 h-2"></div>
+            <div class="p-6 flex flex-col h-full justify-between">
+              <div>
+                <span class="text-sm font-semibold text-blue-600">{{ post.get_categoria_display }}</span>
+                <h2 class="text-2xl font-bold mt-3 mb-4 leading-snug">{{ post.titulo }}</h2>
+                <p class="text-gray-600 leading-relaxed mb-6">{{ post.texto }}</p>
+              </div>
+              <div class="flex items-center justify-between border-t pt-4 mt-auto">
+                <div>
+                  <p class="font-semibold">{{ post.autor }}</p>
+                  <p class="text-sm text-gray-500">{{ post.criado_em|date:"d/m/Y H:i" }}</p>
+                </div>
+                <a href="{% url 'detalhe_post' post.id %}" class="text-blue-600 font-semibold hover:underline">
+                  Ler mais
+                </a>
+              </div>
+            </div>
+          </article>
+          {% empty %}
+          <p class="text-gray-500 text-center col-span-full">Nenhum post encontrado.</p>
+          {% endfor %}
+        </div>
+      </div>
+    </main>
+  </div>
+
+  <footer class="border-t border-gray-200 py-10 bg-gray-50">
+    <div class="max-w-7xl mx-auto px-6 text-center">
+      <h3 class="text-2xl font-bold text-blue-600 mb-4">Comunidade Python</h3>
+      <p class="text-gray-500">Compartilhando conhecimento através da programação.</p>
+      <p class="text-gray-400 text-sm mt-4">© 2026 Todos os direitos reservados.</p>
+    </div>
+  </footer>
+
+</div>
+
+
+
+
+
+
+
+<script>
+  const menuBtn = document.getElementById('menu-btn');
+  const mobileMenu = document.getElementById('mobile-menu');
+
+  menuBtn.addEventListener('click', () => {
+    // Alterna a classe hidden para mostrar/esconder o menu
+    mobileMenu.classList.toggle('hidden');
+
+    // Altera o ícone de ☰ para ✕ quando aberto
+    if (mobileMenu.classList.contains('hidden')) {
+      menuBtn.innerHTML = '☰';
+    } else {
+      menuBtn.innerHTML = '✕';
+    }
+  });
+
+  // Fecha o menu se o usuário clicar em um link interno
+  const menuLinks = mobileMenu.querySelectorAll('a');
+  menuLinks.forEach(link => {
+    link.addEventListener('click', () => {
+      mobileMenu.classList.add('hidden');
+      menuBtn.innerHTML = '☰';
+    });
+  });
+</script>
+{% endblock %}

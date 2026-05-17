@@ -1,0 +1,134 @@
+# =========================
+# Python
+# =========================
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+
+# =========================
+# Ambiente Virtual
+# =========================
+.env
+.venv/
+venv/
+env/
+ENV/
+env.bak/
+venv.bak/
+
+# =========================
+# Django
+# =========================
+*.log
+local_settings.py
+db.sqlite3
+db.sqlite3-journal
+media/
+
+# =========================
+# Build / Distribuição
+# =========================
+.Python
+build/
+dist/
+downloads/
+eggs/
+.eggs/
+lib/
+lib64/
+parts/
+sdist/
+share/python-wheels/
+var/
+wheels/
+*.egg-info/
+.installed.cfg
+*.egg
+MANIFEST
+
+# =========================
+# PyInstaller
+# =========================
+*.manifest
+*.spec
+
+# =========================
+# Testes / Coverage
+# =========================
+htmlcov/
+.tox/
+.nox/
+.coverage
+.coverage.*
+.cache
+.pytest_cache/
+.hypothesis/
+nosetests.xml
+coverage.xml
+*.cover
+*.py.cover
+*.lcov
+
+# =========================
+# Jupyter Notebook
+# =========================
+.ipynb_checkpoints
+
+# =========================
+# IDEs / Editores
+# =========================
+.vscode/
+.idea/
+.spyderproject
+.spyproject
+.ropeproject
+
+# =========================
+# Type Checkers
+# =========================
+.mypy_cache/
+.dmypy.json
+dmypy.json
+.pyre/
+.pytype/
+.ruff_cache/
+
+# =========================
+# Cython
+# =========================
+cython_debug/
+
+# =========================
+# Arquivos do Sistema
+# =========================
+.DS_Store
+.AppleDouble
+.LSOverride
+Icon
+._*
+.Spotlight-V100
+.Trashes
+desktop.ini
+
+# =========================
+# Arquivos Temporários
+# =========================
+tempCodeRunnerFile.py
+
+# =========================
+# Streamlit
+# =========================
+.streamlit/secrets.toml
+
+# =========================
+# Marimo
+# =========================
+marimo/_static/
+marimo/_lsp/
+__marimo__/
+
+# =========================
+# Abstra
+# =========================
+.abstra/

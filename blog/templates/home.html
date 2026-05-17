@@ -1,0 +1,359 @@
+{% extends 'base.html' %}
+{% block title %}
+Comunidade Python
+{% endblock %}
+
+{% block body %}
+<header class="fixed top-0 left-0 w-full bg-white border-b border-gray-200 z-50 shadow-sm">
+  <div class="max-w-7xl mx-auto px-6 py-4 flex items-center justify-between">
+    <div>
+      <a href="{% url 'home' %}">
+        <h1 class="text-2xl font-bold text-blue-600">Comunidade Python</h1>
+      </a>
+    </div>
+
+    <nav class="hidden md:flex items-center gap-8 font-medium">
+      {% if user.is_authenticated %}
+      <span class="transition">Bem-vindo(a) <span class="text-blue-600">{{ user.first_name }}</span></span>
+      <a href="{% url 'comunidade' %}" class="hover:text-blue-600 transition">Comunidade</a>
+      <a href="{% url 'logout' %}"
+        class="bg-red-500 hover:bg-red-600 text-white px-5 py-2 rounded-lg font-medium transition duration-300">
+        Logout
+      </a>
+      <a href="{% url 'criar_post' %}"
+        class="bg-blue-600 hover:bg-blue-700 text-white px-5 py-2 rounded-lg font-medium transition duration-300">
+        Criar Post
+      </a>
+      {% else %}
+      <a href="#sobre" class="hover:text-blue-600 transition">Sobre</a>
+      <a href="{% url 'comunidade' %}" class="hover:text-blue-600 transition">Comunidade</a>
+      <a href="{% url 'cadastro' %}"
+        class="bg-blue-600 hover:bg-blue-700 text-white px-5 py-2 rounded-lg font-medium transition duration-300">
+        Criar conta
+      </a>
+      <a href="{% url 'login' %}"
+        class="bg-blue-600 hover:bg-blue-700 text-white px-5 py-2 rounded-lg font-medium transition duration-300">
+        Fazer login
+      </a>
+      {% endif %}
+    </nav>
+
+    <button id="menu-btn" class="md:hidden text-blue-600 text-3xl focus:outline-none" aria-label="Abrir menu">
+      ☰
+    </button>
+  </div>
+
+  <div id="mobile-menu"
+    class="hidden md:hidden bg-white border-b border-gray-200 px-6 py-4 space-y-4 font-medium shadow-lg animate-fade-in">
+    {% if user.is_authenticated %}
+    <div class="pb-2 border-b border-gray-100">
+      <span class="text-gray-600">Bem-vindo(a) <span class="text-blue-600 font-bold">{{ user.first_name }}</span></span>
+    </div>
+    <a href="{% url 'comunidade' %}" class="block hover:text-blue-600 transition">Comunidade</a>
+    <div class="flex flex-col gap-2 pt-2">
+      <a href="{% url 'criar_post' %}"
+        class="block text-center bg-blue-600 hover:bg-blue-700 text-white px-5 py-2 rounded-lg font-medium transition duration-300">
+        Criar Post
+      </a>
+      <a href="{% url 'logout' %}"
+        class="block text-center bg-red-500 hover:bg-red-600 text-white px-5 py-2 rounded-lg font-medium transition duration-300">
+        Logout
+      </a>
+    </div>
+    {% else %}
+    <a href="#sobre" class="block hover:text-blue-600 transition">Sobre</a>
+    <a href="{% url 'comunidade' %}" class="block hover:text-blue-600 transition">Comunidade</a>
+    <div class="flex flex-col gap-2 pt-2">
+      <a href="{% url 'login' %}"
+        class="block text-center border border-blue-600 text-blue-600 hover:bg-blue-50 px-5 py-2 rounded-lg font-medium transition duration-300">
+        Fazer login
+      </a>
+      <a href="{% url 'cadastro' %}"
+        class="block text-center bg-blue-600 hover:bg-blue-700 text-white px-5 py-2 rounded-lg font-medium transition duration-300">
+        Criar conta
+      </a>
+    </div>
+    {% endif %}
+  </div>
+</header>
+
+
+
+
+
+<!-- HERO -->
+<section class="bg-blue-50">
+  <div class="max-w-7xl mx-auto px-6 py-20">
+    <div class="grid md:grid-cols-2 gap-12 items-center mt-8">
+      <!-- Texto -->
+      <div>
+        <h2 class="text-4xl md:text-5xl font-bold leading-tight mb-6">
+          Bem-vindo à
+          <span class="text-blue-600"> Comunidade Python </span>
+        </h2>
+
+        <p class="text-lg text-gray-600 mb-8 leading-relaxed">
+          O lugar perfeito para aprender, desenvolver e conhecer pessoas
+          apaixonadas por Python e tecnologia.
+        </p>
+
+        <div class="flex flex-col sm:flex-row gap-4">
+          <a href="{% url 'comunidade' %}"
+            class="bg-blue-600 hover:bg-blue-700 text-white px-6 py-3 rounded-lg font-semibold transition text-center">
+            Explorar Posts
+          </a>
+
+          <a href="{% url 'cadastro' %}"
+            class="border border-blue-600 text-blue-600 hover:bg-blue-600 hover:text-white px-6 py-3 rounded-lg font-semibold transition text-center">
+            Criar Conta
+          </a>
+        </div>
+      </div>
+
+      <!-- Card lateral -->
+      <div class="bg-white p-8 rounded-2xl shadow-lg">
+        <h3 class="text-2xl font-bold mb-6 text-blue-600">
+          O que você encontra aqui?
+        </h3>
+
+        <div class="space-y-5">
+          <div class="flex gap-4">
+            <div class="text-3xl">🐍</div>
+            <div>
+              <h4 class="font-semibold">Tutoriais Python</h4>
+              <p class="text-gray-600 text-sm">
+                Aprenda Python do básico ao avançado.
+              </p>
+            </div>
+          </div>
+
+          <div class="flex gap-4">
+            <div class="text-3xl">💻</div>
+            <div>
+              <h4 class="font-semibold">Projetos Reais</h4>
+              <p class="text-gray-600 text-sm">
+                Compartilhe projetos e aprenda na prática.
+              </p>
+            </div>
+          </div>
+
+          <div class="flex gap-4">
+            <div class="text-3xl">🚀</div>
+            <div>
+              <h4 class="font-semibold">Crescimento Profissional</h4>
+              <p class="text-gray-600 text-sm">
+                Evolua suas habilidades como desenvolvedor.
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- SOBRE A COMUNIDADE -->
+<section class="py-20 bg-white" id="sobre">
+  <div class="max-w-7xl mx-auto px-6">
+    <div class="grid md:grid-cols-2 gap-14 items-center">
+      <!-- Texto -->
+      <div>
+        <span class="text-blue-600 font-semibold uppercase tracking-wider">
+          Sobre a Comunidade
+        </span>
+
+        <h2 class="text-4xl font-bold mt-4 mb-6 leading-tight">
+          Um espaço criado para desenvolvedores apaixonados por Python
+        </h2>
+
+        <p class="text-gray-600 text-lg leading-relaxed mb-6">
+          A Comunidade Python nasceu com o objetivo de conectar pessoas que
+          desejam aprender programação, compartilhar conhecimento e evoluir
+          juntas no universo do desenvolvimento.
+        </p>
+
+        <p class="text-gray-600 text-lg leading-relaxed mb-8">
+          Aqui você encontrará artigos, projetos, dicas de programação,
+          conteúdos sobre Django, automações, APIs, backend e muito mais. Tudo
+          desenvolvido por membros da comunidade.
+        </p>
+
+        <div class="flex flex-col sm:flex-row gap-4">
+          <a href="#"
+            class="bg-blue-600 hover:bg-blue-700 text-white px-6 py-3 rounded-lg font-semibold transition text-center">
+            Explorar Conteúdo
+          </a>
+
+          <a href="#"
+            class="border border-blue-600 text-blue-600 hover:bg-blue-600 hover:text-white px-6 py-3 rounded-lg font-semibold transition text-center">
+            Participar da Comunidade
+          </a>
+        </div>
+      </div>
+
+      <!-- Cards -->
+      <div class="grid gap-6">
+        <!-- Card -->
+        <div class="bg-blue-50 border border-blue-100 rounded-2xl p-6">
+          <div class="text-4xl mb-4">📚</div>
+
+          <h3 class="text-xl font-bold mb-3">Aprendizado Contínuo</h3>
+
+          <p class="text-gray-600">
+            Conteúdos para iniciantes e desenvolvedores que desejam evoluir suas
+            habilidades com Python.
+          </p>
+        </div>
+
+        <!-- Card -->
+        <div class="bg-blue-50 border border-gray-200 rounded-2xl p-6">
+          <div class="text-4xl mb-4">🤝</div>
+
+          <h3 class="text-xl font-bold mb-3">
+            Compartilhamento de Conhecimento
+          </h3>
+
+          <p class="text-gray-600">
+            Usuários podem publicar artigos, projetos e experiências para ajudar
+            outros membros da comunidade.
+          </p>
+        </div>
+
+        <!-- Card -->
+        <div class="bg-blue-50 border border-blue-100 rounded-2xl p-6">
+          <div class="text-4xl mb-4">🚀</div>
+
+          <h3 class="text-xl font-bold mb-3">Crescimento Profissional</h3>
+
+          <p class="text-gray-600">
+            Desenvolva habilidades práticas com backend, Django e
+            desenvolvimento web moderno.
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- POSTS -->
+<section class="py-20">
+  <div class="max-w-7xl mx-auto px-6">
+    <div class="text-center mb-14">
+      <h2 class="text-3xl font-bold mb-4">Últimos Posts</h2>
+
+      <p class="text-gray-600">Conteúdos criados pela comunidade.</p>
+    </div>
+
+    <!-- Cards -->
+    <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-8">
+      <!-- CARD -->
+      <div class="border border-gray-200 rounded-2xl p-6 hover:shadow-lg transition">
+        <span class="text-sm text-blue-600 font-semibold"> Python Básico </span>
+
+        <h3 class="text-xl font-bold mt-3 mb-3">
+          Aprendendo Variáveis em Python
+        </h3>
+
+        <p class="text-gray-600 mb-6">
+          Entenda como funcionam variáveis e tipos de dados em Python.
+        </p>
+
+        <div class="flex items-center justify-between text-sm text-gray-500">
+          <span>Por João</span>
+          <span>15 Maio 2026</span>
+        </div>
+      </div>
+
+      <!-- CARD -->
+      <div class="border border-gray-200 rounded-2xl p-6 hover:shadow-lg transition">
+        <span class="text-sm text-blue-600 font-semibold"> Django </span>
+
+        <h3 class="text-xl font-bold mt-3 mb-3">Criando seu primeiro Blog</h3>
+
+        <p class="text-gray-600 mb-6">
+          Aprenda a criar um sistema simples de blog usando Django.
+        </p>
+
+        <div class="flex items-center justify-between text-sm text-gray-500">
+          <span>Por Maria</span>
+          <span>15 Maio 2026</span>
+        </div>
+      </div>
+
+      <!-- CARD -->
+      <div class="border border-gray-200 rounded-2xl p-6 hover:shadow-lg transition">
+        <span class="text-sm text-blue-600 font-semibold"> Backend </span>
+
+        <h3 class="text-xl font-bold mt-3 mb-3">APIs com Django REST</h3>
+
+        <p class="text-gray-600 mb-6">
+          Descubra como criar APIs modernas usando Django REST Framework.
+        </p>
+
+        <div class="flex items-center justify-between text-sm text-gray-500">
+          <span>Por Carlos</span>
+          <span>15 Maio 2026</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CTA -->
+<section class="bg-blue-600 py-20">
+  <div class="max-w-4xl mx-auto text-center px-6">
+    <h2 class="text-4xl font-bold text-white mb-6">Faça parte da comunidade</h2>
+
+    <p class="text-blue-100 text-lg mb-8">
+      Compartilhe conhecimento, publique artigos e evolua com outros
+      desenvolvedores Python.
+    </p>
+
+    <a href="#" class="bg-white text-blue-600 px-8 py-4 rounded-lg font-bold hover:scale-105 transition inline-block">
+      Começar Agora
+    </a>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer class="border-t border-gray-200 py-8">
+  <div class="max-w-7xl mx-auto px-6 text-center text-gray-500">
+    <p>© 2026 Comunidade Python — Desenvolvido por Carlos Renan</p>
+  </div>
+</footer>
+
+
+
+
+
+
+
+
+
+<script>
+  const menuBtn = document.getElementById('menu-btn');
+  const mobileMenu = document.getElementById('mobile-menu');
+
+  menuBtn.addEventListener('click', () => {
+    // Alterna a classe 'hidden' para mostrar/esconder o menu
+    mobileMenu.classList.toggle('hidden');
+
+    // Opcional: Altera o ícone de ☰ para ✕ quando aberto
+    if (mobileMenu.classList.contains('hidden')) {
+      menuBtn.innerHTML = '☰';
+    } else {
+      menuBtn.innerHTML = '✕';
+    }
+  });
+
+  // Fecha o menu se o usuário clicar em um link (útil para links âncora como #sobre)
+  const menuLinks = mobileMenu.querySelectorAll('a');
+  menuLinks.forEach(link => {
+    link.addEventListener('click', () => {
+      mobileMenu.classList.add('hidden');
+      menuBtn.innerHTML = '☰';
+    });
+  });
+</script>
+
+{% endblock %}

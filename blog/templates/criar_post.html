@@ -1,0 +1,218 @@
+{% extends 'base.html' %}
+
+{% block title %}
+Comunidade Python - Criar Post
+{% endblock %}
+
+{% block body %}
+<div class="bg-blue-50 min-h-screen">
+
+    <!-- HEADER -->
+    <header class="fixed top-0 left-0 w-full bg-white border-b border-gray-200 z-50 shadow-sm">
+        <div class="max-w-7xl mx-auto px-6 py-4 flex items-center justify-between">
+            <a href="{% url 'comunidade' %}">
+                <h1 class="text-2xl font-bold text-blue-600">
+                    Comunidade Python
+                </h1>
+            </a>
+
+            <nav class="hidden md:flex items-center gap-6 font-medium">
+                <a href="{% url 'logout' %}"
+                    class="bg-red-500 hover:bg-red-600 text-white px-5 py-2 rounded-lg font-medium transition duration-300">
+                    Logout
+                </a>
+            </nav>
+
+            <button id="menu-btn" class="md:hidden text-blue-600 text-3xl focus:outline-none" aria-label="Abrir menu">
+                ☰
+            </button>
+        </div>
+
+        <div id="mobile-menu"
+            class="hidden md:hidden bg-white border-b border-gray-200 px-6 py-4 space-y-4 font-medium shadow-lg">
+            <a href="{% url 'logout' %}"
+                class="block text-center bg-red-500 hover:bg-red-600 text-white px-5 py-2 rounded-lg font-medium transition duration-300">
+                Logout
+            </a>
+        </div>
+    </header>
+
+    <!-- Espaçamento -->
+    <div class="h-24"></div>
+
+    <!-- CONTAINER -->
+    <main class="max-w-4xl mx-auto px-6 py-10">
+
+        <!-- Card -->
+        <div class="bg-white rounded-2xl shadow-xl p-8 md:p-10">
+
+            <!-- Título -->
+            <div class="mb-10">
+
+                <h2 class="text-4xl font-bold text-gray-800 mb-4">
+                    Criar Novo Post
+                </h2>
+
+                <p class="text-gray-600 text-lg">
+                    Compartilhe conhecimento com a comunidade Python.
+                </p>
+
+            </div>
+
+            {% if messages %}
+            {% for message in messages %}
+            <div
+                class="p-3 rounded-md text-base font-medium {% if message.tags == 'error' %}bg-red-100 text-red-700{% else %}bg-green-100 text-green-700{% endif %}">
+                {{ message }}
+            </div>
+            {% endfor %}
+            {% endif %}
+
+            <!-- FORM -->
+            <form method="POST" class="space-y-8">
+
+                {% csrf_token %}
+
+                <!-- Título -->
+                <div>
+
+                    <label class="block mb-3 font-semibold text-blue-600">
+                        Título do Post
+                    </label>
+
+                    <input type="text" name="titulo" placeholder="Digite o título do post"
+                        class="w-full border border-gray-300 rounded-xl px-5 py-4 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                        required />
+
+                </div>
+
+                <!-- Categoria -->
+                <div>
+
+                    <label class="block mb-3 font-semibold text-blue-600">
+                        Categoria
+                    </label>
+
+                    <select name="categoria"
+                        class="w-full border border-gray-300 rounded-xl px-5 py-4 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                        required>
+
+                        <option value="">
+                            Selecione uma categoria
+                        </option>
+
+                        <option value="python">
+                            Python
+                        </option>
+
+                        <option value="django">
+                            Django
+                        </option>
+
+                        <option value="backend">
+                            Backend
+                        </option>
+
+                        <option value="api">
+                            API
+                        </option>
+
+                    </select>
+
+                </div>
+
+                <!-- Conteúdo -->
+                <div>
+
+                    <label class="block mb-3 font-semibold text-blue-600">
+                        Conteúdo do Post
+                    </label>
+
+                    <textarea name="texto" rows="10" placeholder="Escreva o conteúdo do seu post..."
+                        class="w-full border border-gray-300 rounded-xl px-5 py-4 resize-none focus:outline-none focus:ring-2 focus:ring-blue-500"
+                        required></textarea>
+
+                </div>
+
+                <!-- Informações -->
+                <div class="bg-blue-50 border border-blue-100 rounded-xl p-5">
+
+                    <h3 class="font-bold text-blue-600 mb-3">
+                        Informações do Post
+                    </h3>
+
+                    <div class="space-y-2 text-gray-700">
+
+                        <p>
+                            <span class="font-semibold">
+                                Autor:
+                            </span>
+
+                            {{ user.username }}
+                        </p>
+
+                        <p>
+                            <span class="font-semibold">
+                                Data:
+                            </span>
+
+                            Será adicionada automaticamente
+                        </p>
+
+                    </div>
+
+                </div>
+
+                <!-- Botões -->
+                <div class="flex flex-col sm:flex-row gap-4">
+
+                    <button type="submit"
+                        class="bg-blue-600 hover:bg-blue-700 text-white px-8 py-4 rounded-xl font-semibold transition duration-300">
+                        Publicar Post
+                    </button>
+
+                    <a href="{% url 'comunidade' %}"
+                        class="border border-gray-300 hover:border-blue-600 hover:text-blue-600 px-8 py-4 rounded-xl font-semibold transition duration-300 text-center">
+                        Cancelar
+                    </a>
+
+                </div>
+
+            </form>
+
+        </div>
+
+    </main>
+</div>
+
+
+
+
+
+<script>
+    const menuBtn = document.getElementById('menu-btn');
+    const mobileMenu = document.getElementById('mobile-menu');
+
+    menuBtn.addEventListener('click', () => {
+        // Alterna a visibilidade do menu mudando a classe 'hidden'
+        mobileMenu.classList.toggle('hidden');
+
+        // Troca o ícone do botão entre o hambúrguer e o X
+        if (mobileMenu.classList.contains('hidden')) {
+            menuBtn.innerHTML = '☰';
+        } else {
+            menuBtn.innerHTML = '✕';
+        }
+    });
+
+    // Garante que o menu feche se algum link interno for clicado
+    const menuLinks = mobileMenu.querySelectorAll('a');
+    menuLinks.forEach(link => {
+        link.addEventListener('click', () => {
+            mobileMenu.classList.add('hidden');
+            menuBtn.innerHTML = '☰';
+        });
+    });
+</script>
+
+{% endblock %}

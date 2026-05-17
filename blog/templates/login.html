@@ -1,0 +1,102 @@
+{% extends 'base.html' %}
+
+{% block title %}
+Login | Comunidade Python
+{% endblock %}
+
+{% block body %}
+<div class="bg-blue-50 min-h-screen flex items-center justify-center px-6">
+
+  <!-- Container -->
+  <div class="w-full max-w-md bg-white rounded-2xl shadow-xl p-8">
+
+    <!-- Título -->
+    <div class="text-center mb-8">
+
+      <h1 class="text-3xl font-bold text-blue-600 mb-3">
+        Comunidade Python
+      </h1>
+
+      <p class="text-gray-600">
+        Entre na sua conta para continuar
+      </p>
+
+    </div>
+
+    {% if messages %}
+    {% for message in messages %}
+    <div
+      class="p-3 rounded-md text-base font-medium {% if message.tags == 'error' %}bg-red-100 text-red-700{% else %}bg-green-100 text-green-700{% endif %}">
+      {{ message }}
+    </div>
+    {% endfor %}
+    {% endif %}
+
+    <!-- Formulário -->
+    <form class="space-y-6" method="POST">
+      {% csrf_token %}
+      <!-- Email -->
+      <div>
+
+        <label class="block mb-2 font-medium text-gray-700">
+          Nome de Usuário
+        </label>
+
+        <input type="text" placeholder="Digite seu nome de usuário"
+          class="w-full border border-gray-300 rounded-lg px-4 py-3 focus:outline-none focus:ring-2 focus:ring-blue-500"
+          name="username" required />
+
+      </div>
+
+      <!-- Senha -->
+      <div>
+
+        <label class="block mb-2 font-medium text-gray-700">
+          Senha
+        </label>
+
+        <input type="password" placeholder="Digite sua senha"
+          class="w-full border border-gray-300 rounded-lg px-4 py-3 focus:outline-none focus:ring-2 focus:ring-blue-500"
+          name="senha" required />
+
+      </div>
+
+      <!-- Opções -->
+      <div class="flex items-center justify-between text-sm">
+
+        <label class="flex items-center gap-2 text-gray-600">
+          <input type="checkbox" class="rounded">
+          Lembrar de mim
+        </label>
+
+        <a href="#" class="text-blue-600 hover:underline">
+          Esqueci minha senha
+        </a>
+
+      </div>
+
+      <!-- Botão -->
+      <button type="submit"
+        class="w-full bg-blue-600 hover:bg-blue-700 text-white py-3 rounded-lg font-semibold transition duration-300">
+        Entrar
+      </button>
+
+    </form>
+
+    <!-- Cadastro -->
+    <div class="text-center mt-8">
+
+      <p class="text-gray-600">
+        Ainda não possui conta?
+      </p>
+
+      <a href="{% url 'cadastro' %}" class="text-blue-600 font-semibold hover:underline">
+        Criar conta
+      </a>
+
+    </div>
+
+  </div>
+
+</div>
+{% endblock %}

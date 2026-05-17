@@ -1,0 +1,1 @@
+web: python manager.py migrate && gunicorn config.wsgi --log-file--
