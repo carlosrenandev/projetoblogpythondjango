@@ -1,3 +1,5 @@
+<img width="2560" height="1298" alt="Image" src="https://github.com/user-attachments/assets/6a9ee4d4-fe1e-4394-89b3-3110348278e7" />
+
 # Blog com Django
 
 Um blog desenvolvido com Django, com sistema de autenticação de usuários e criação de posts pela comunidade.
