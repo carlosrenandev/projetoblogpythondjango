@@ -11,6 +11,7 @@ from django.shortcuts import get_object_or_404
 def home(request):
     return render(request, 'home.html')
 
+
 def cadastro(request):
     if request.user.is_authenticated:
         return redirect('home')
@@ -47,6 +48,7 @@ def cadastro(request):
         return redirect('login')
     return render(request, 'cadastro.html')
 
+
 def login(request):
     if request.user.is_authenticated:
         return redirect('home')
@@ -54,16 +56,24 @@ def login(request):
     if request.method == 'POST':
         username = request.POST.get('username')
         senha = request.POST.get('senha')
+        remember_me = request.POST.get('remember_me')
 
         user = authenticate(request, username=username, password=senha)
 
         if user is not None:
             auth_login(request, user)
+
+            if not remember_me:
+                request.session.set_expiry(0)
+            else:
+                request.session.set_expiry(2592000)
+
             return redirect('home')
         else:
-            messages.error(request, 'E-mail ou senha incorretos.')
+            messages.error(request, 'Usuário ou senha incorretos.')
             return render(request, 'login.html')
     return render(request, 'login.html')
+
 
 @login_required(login_url='login')
 def comunidade(request):
@@ -79,8 +89,7 @@ def comunidade(request):
     return render(request, 'comunidade.html', {
         'posts': posts
     })
-    # posts = Post.objects.all()
-    # return render(request, 'comunidade.html', {'posts': posts})
+
 
 @login_required(login_url='login')
 def criar_post(request):
@@ -118,3 +127,22 @@ def detalhe_post(request, id):
     return render(request, 'detalhe_post.html', {
         'post': post
     })
+
+@login_required(login_url='login')
+def excluir_post(request, id):
+    post = get_object_or_404(Post, id=id)
+
+    # Permissão
+    if (
+        request.user != post.autor
+        and not request.user.is_staff
+        and not request.user.is_superuser
+    ):
+        messages.error(request, 'Você não tem permissão para excluir este post.')
+        return redirect('comunidade')
+
+    if request.method == 'POST':
+        post.delete()
+        messages.success(request, 'Post excluído com sucesso!')
+
+    return redirect('comunidade')
